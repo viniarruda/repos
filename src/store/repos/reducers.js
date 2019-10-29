@@ -18,9 +18,7 @@ export default function reduce(state = INITIAL_STATE, action) {
       console.log('here');
       return {
         ...INITIAL_STATE,
-        list: {
-          ...action.payload,
-        },
+        list: [...action.payload],
       };
     case types.LIST_REPOS_REJECTED: {
       return {

@@ -5,8 +5,6 @@ export const getRepos = username => async dispatch => {
   dispatch(ReposActions.listReposRequested());
   const response = await getReposRequest(username);
 
-  console.log(response);
-
   if (!response.length) {
     dispatch(ReposActions.listReposRejected(response.message));
     return false;
