@@ -29,9 +29,9 @@ const Home = () => {
     }
   }, [searchTerm]);
 
-  const handleChange = term => {
+  const handleChange = async term => {
     console.log('handle', term);
-    setSearchTerm(term);
+    await setSearchTerm(term);
   };
 
   return (
@@ -39,18 +39,18 @@ const Home = () => {
       <Title>Recent</Title>
       <View>
         <Search
-          placeholder="Search repos"
+          placeholder="Search username"
           onChange={searchString => handleChange(searchString)}
         />
       </View>
       {console.log('repos =====>', repos.list)}
       {console.log('term', searchTerm)}
-      {repos.list && (
+      {repos.list && repos.list.length > 0 && (
         <List
           data={repos.list}
-          refreshing={repos.loading}
+          //ItemSeparatorComponent={}
           keyExtractor={item => item.id}
-          renderItem={item => <ListItem name={item.name} />}
+          renderItem={item => <ListItem {...item} />}
         />
       )}
     </Container>
