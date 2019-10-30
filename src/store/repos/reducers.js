@@ -15,7 +15,6 @@ export default function reduce(state = INITIAL_STATE, action) {
       };
     }
     case types.LIST_REPOS_FULFILLED:
-      console.log('here');
       return {
         ...INITIAL_STATE,
         list: [...action.payload],

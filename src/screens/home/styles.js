@@ -1,8 +1,13 @@
-import React from 'react';
-
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../components/theme';
+
+export const Spinner = styled.View`
+  width: 100%;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
 
 export const List = styled.FlatList`
   min-height: 200px;
@@ -17,7 +22,7 @@ export const SearchContainer = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background: ${theme.colors.tertiary};
+  background: #f1f1f1;
   border-radius: 5px;
 `;
 
@@ -30,19 +35,6 @@ export const SeachInput = styled.TextInput`
   padding: 10px 10px 10px 0;
   color: ${theme.colors.secondary};
 `;
-
-export const Search = ({onChange, placeholder}) => (
-  <SearchContainer>
-    {console.log('on change', onChange)}
-    <SeachIcon name="search" size={18} color="#000" />
-    <SeachInput
-      placeholder={placeholder}
-      onBlur={e => onChange(e.nativeEvent.text)}
-      onKeyPress={e => onChange(e.nativeEvent.text)}
-      underlineColorAndroid="transparent"
-    />
-  </SearchContainer>
-);
 
 export const ItemAvatar = styled.Image`
   width: 50px;
@@ -58,12 +50,18 @@ export const Item = styled.View`
 
 export const ItemDescription = styled.View`
   flex: 1;
+  width: 100%;
+  flex-direction: row;
   justify-content: center;
   padding-left: 10px;
 `;
 
-export const ArrowIcon = styled(Icon)`
+export const ItemDescriptionContent = styled.View`
+  justify-content: center;
   flex: 1;
+`;
+
+export const ArrowIcon = styled(Icon)`
   align-self: center;
   justify-content: flex-end;
 `;

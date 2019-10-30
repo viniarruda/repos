@@ -3,18 +3,19 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getRepos} from '../../store/repos/thunks';
-import * as githubSelector from '../../store/repos/selectors';
 
 import Container from '../../components/layout/Container';
-import {Title} from '../../components/layout/Typography';
-import {Search, List} from './styles';
+import {Title, SubTitle} from '../../components/layout/Typography';
+import {List, Spinner} from './styles';
 
-import {View} from 'react-native';
+import {View, ActivityIndicator} from 'react-native';
 
 import ListItem from './Item';
+import Search from './Search';
 
-const Home = () => {
-  const [searchTerm, setSearchTerm] = useState('viniarruda');
+const Home = ({navigation: {navigate}}) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [startSearch, setStartSearch] = useState(false);
 
   const dispatch = useDispatch();
   const repos = useSelector(state => state.repos);
@@ -24,14 +25,14 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (searchTerm) {
+    if (searchTerm && startSearch) {
       fetchGithubRepos();
+      setStartSearch(false);
     }
-  }, [searchTerm]);
+  }, [searchTerm, startSearch]);
 
-  const handleChange = async term => {
-    console.log('handle', term);
-    await setSearchTerm(term);
+  const handleChange = term => {
+    setSearchTerm(term);
   };
 
   return (
@@ -39,19 +40,25 @@ const Home = () => {
       <Title>Recent</Title>
       <View>
         <Search
-          placeholder="Search username"
+          placeholder="Search repository"
           onChange={searchString => handleChange(searchString)}
+          startSearch={search => setStartSearch(search)}
+          value={searchTerm}
         />
       </View>
-      {console.log('repos =====>', repos.list)}
-      {console.log('term', searchTerm)}
-      {repos.list && repos.list.length > 0 && (
+      {repos.loading ? (
+        <Spinner>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </Spinner>
+      ) : repos.list && repos.list.length > 0 ? (
         <List
           data={repos.list}
           //ItemSeparatorComponent={}
           keyExtractor={item => item.id}
-          renderItem={item => <ListItem {...item} />}
+          renderItem={item => <ListItem {...item} navigate={navigate} />}
         />
+      ) : (
+        <SubTitle>Please, search an repo</SubTitle>
       )}
     </Container>
   );

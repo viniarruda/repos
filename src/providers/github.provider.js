@@ -3,12 +3,12 @@ import axios from 'axios';
 import {api} from '../utils';
 
 const ENDPOINTS = {
-  REPOS: `${api}/users`,
+  REPOS: `${api}/search/repositories`,
 };
 
-export const getReposRequest = username => {
+export const getReposRequest = repoName => {
   return axios
-    .get(`${ENDPOINTS.REPOS}/${username}/repos`)
+    .get(`${ENDPOINTS.REPOS}?q=${repoName}`)
     .then(res => res.data)
     .catch(err => err.response.data);
 };

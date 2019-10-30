@@ -1,15 +1,15 @@
 import {getReposRequest} from '../../providers/github.provider';
 import * as ReposActions from './actions';
 
-export const getRepos = username => async dispatch => {
+export const getRepos = repoName => async dispatch => {
   dispatch(ReposActions.listReposRequested());
-  const response = await getReposRequest(username);
+  const {items, message} = await getReposRequest(encodeURI(repoName));
 
-  if (!response.length) {
-    dispatch(ReposActions.listReposRejected(response.message));
+  if (!items.length) {
+    dispatch(ReposActions.listReposRejected(message));
     return false;
   }
 
-  dispatch(ReposActions.listReposFulfilled(response));
+  dispatch(ReposActions.listReposFulfilled(items));
   return true;
 };
